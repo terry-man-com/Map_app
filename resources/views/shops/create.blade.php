@@ -37,15 +37,14 @@
         let clicked;
         map.on('click', function(e){
             if(clicked != true){
-                const marker = L.marker([e.latlng['lat'], e.latlng['lng']], {draggable: true})
-                    .addTo(map);
+                clicked = true;
+                const marker = L.marker([e.latlng['lat'], e.latlng['lng']], {draggable: true}).addTo(map);
+                lat.value = e.latlng['lat'];
+                lng.value = e.latlng['lng'];
                 marker.on('dragend', function(e){
                     lat.value = e.target._latlng.lat;
                     lng.value = e.target._latlng.lng;
                 });
-                lat.value = e.latlng['lat'];
-                lng.value = e.latlng['lng'];
-                clicked = true;
             }
         });
     </script>

@@ -20,6 +20,8 @@
             <label for="address">住所：</label>
             <input type="text" name="address" id="address" value="{{ old('address', $shop->address) }}">
         </div>
+        <input type="hidden" name="latitude" id="latitude" value="{{ $shop->latitude }}">
+        <input type="hidden" name="longitude" id="longitude" value="{{ $shop->longitude }}">
         <div id="map" style="height: 50vh;"></div>
         <div>
             <input type="submit" value="更新">
@@ -32,12 +34,15 @@
     @include('partial.map')
     <script>
         @if (!empty($shop))
-            const marker = L.marker([{{ $shop->latitude }}, {{ $shop->longitude }}], {draggable: true}).addTo(map);
+            const lat = document.getElementById('latitude');
+            const lng = document.getElementById('longitude');
+            const marker = L.marker([{{ $shop->latitude }}, {{ $shop->longitude }}], {draggable: true})
+            .addTo(map)
+            .bindPopup("{{ $shop->name }}", {closeButton: false});
             marker.on('dragend', function(e){
                 lat.value = e.target._latlng.lat;
                 lng.value = e.target._latlng.lng;
             });
-            marker.bindPopup("{{ $shop->name }}", {closeButton: false});
         @endif
     </script>
 @endsection
